@@ -1,0 +1,14 @@
+beijingAngleNum: 1080
+beijingPlanes: 21
+beijingSubDetectorSize:
+  - 80
+  - 128
+beijingVolumeSize:
+  - 512
+  - 512
+  - 64
+beijingParameterRoot: /media/wyk/wyk/beijing/projVecReal.mat
+beijingSID: 708
+beijingSDD: 1143
+sampleInterval: 0.8852
+beijingGap: 0
