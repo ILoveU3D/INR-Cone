@@ -1,3 +1,7 @@
+###
+# Nerf复原自然图像（w/o position encoding）
+###
+
 import numpy as np
 import torch
 import torch.nn as nn

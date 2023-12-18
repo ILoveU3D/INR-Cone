@@ -6,7 +6,7 @@ beijingSubDetectorSize:
 beijingVolumeSize:
   - 512
   - 512
-  - 64
+  - 16
 beijingParameterRoot: /home/nv/wyk/Data/projVecReal.mat
 beijingSID: 708
 beijingSDD: 1143

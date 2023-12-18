@@ -1,3 +1,8 @@
+## Introduction
+#### Wangyukang
+___
+We adpoted `Nerf` into medical reconstruction.
+
 ### REFERENCES
 ___
 1. van Aarle, W., Palenstijn, W. J., De Beenhouwer, J., Altantzis, T., Bals, S., Batenburg, K. J., & Sijbers, J. (2015). The ASTRA Toolbox: A platform for advanced algorithm development in electron tomography. Ultramicroscopy, 157, 35-47. doi:10.1016/j.ultramic.2015.05.002

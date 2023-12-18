@@ -1,3 +1,7 @@
+###
+# Nerf重建二维平行束（w/o position encoding）
+###
+
 import odl
 from odl.contrib import torch as odl_torch
 import numpy as np

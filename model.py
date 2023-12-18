@@ -17,8 +17,11 @@ network_config = {
     "n_neurons": 64, "n_hidden_layers": 1
 }
 model = torch.nn.ModuleList()
-for s in range(64):
+for s in range(16):
     model.append(tcnn.NetworkWithInputEncoding(
         n_input_dims=2, n_output_dims=1,
         encoding_config=encoding_config, network_config=network_config
     ))
+
+
+
