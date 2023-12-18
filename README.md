@@ -1,6 +1,4 @@
 ## Introduction
-#### Wangyukang
-___
 We adpoted `Nerf` into medical reconstruction.
 
 ### REFERENCES
