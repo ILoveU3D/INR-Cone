@@ -1,5 +1,6 @@
 import torch
 import tinycudann as tcnn
+from options import beijingVolumeSize
 
 encoding_config = {
     "otype": "Grid",
@@ -11,13 +12,13 @@ encoding_config = {
     "interpolation": "Linear"
 }
 network_config = {
-    "otype": "FullyFusedMLP",
+    "otype": "CutlassMLP",
     "activation": "ReLU",
-    "output_activation": "ReLU",
+    "output_activation": "Sigmoid",
     "n_neurons": 64, "n_hidden_layers": 1
 }
 model = torch.nn.ModuleList()
-for s in range(16):
+for s in range(beijingVolumeSize[2]):
     model.append(tcnn.NetworkWithInputEncoding(
         n_input_dims=2, n_output_dims=1,
         encoding_config=encoding_config, network_config=network_config
