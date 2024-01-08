@@ -14,7 +14,7 @@ encoding_config = {
 network_config = {
     "otype": "CutlassMLP",
     "activation": "ReLU",
-    "output_activation": "Sigmoid",
+    "output_activation": "ReLU",
     "n_neurons": 64, "n_hidden_layers": 1
 }
 model = torch.nn.ModuleList()

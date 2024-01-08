@@ -1,0 +1,8 @@
+jit.cpp
+setup.py
+JITSelfCalibration.egg-info/PKG-INFO
+JITSelfCalibration.egg-info/SOURCES.txt
+JITSelfCalibration.egg-info/dependency_links.txt
+JITSelfCalibration.egg-info/not-zip-safe
+JITSelfCalibration.egg-info/top_level.txt
+kernel/differentiableFanFlatGradient.cu

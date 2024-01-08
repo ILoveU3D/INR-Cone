@@ -41,7 +41,7 @@ encoding_config = {
     "n_levels": 8, "n_features_per_level": 8,
     "log2_hash_map_size": 22,
     "base_resolution": 2,
-    "per_level_scale": 2.0,
+    "per_level_scale": 1.9,
     "interpolation": "Linear"
 }
 network_config = {
@@ -66,13 +66,13 @@ if __name__ == '__main__':
     label = np.fromfile("/home/nv/wyk/Data/SheppLogan.raw", dtype="float32")
     label = np.reshape(label, [64, volumeSize[0]*volumeSize[1]])
     label = label[32, ...]
-    # label /= np.max(label)
+    label /= np.max(label)
     label_sino = torch.from_numpy(H * label).cuda()
     # label_sino.detach().cpu().numpy().astype("float32").tofile("/media/wyk/wyk/Data/raws/output.raw")
     input = build_coordinate_test(volumeSize[0])
     lossFunction = nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=200, gamma=0.95)
+    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=800, gamma=0.95)
     tic = time.time()
     for e in range(5000):
         output = model(input).float().view(-1)
@@ -86,5 +86,5 @@ if __name__ == '__main__':
             print(f"loss:{loss.item()}")  
     output = model(input).view(-1)
     output.detach().cpu().numpy().astype("float32").tofile("/home/nv/wyk/Data/output.raw")
-    label_sino.detach().cpu().numpy().astype("float32").tofile("/home/nv/wyk/Data/label.raw")
+    label.astype("float32").tofile("/home/nv/wyk/Data/label.raw")
     print(f"time cost:{time.time() - tic}")
