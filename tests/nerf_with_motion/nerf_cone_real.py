@@ -16,14 +16,16 @@ for m in model:
     m.train()
 
 if __name__ == '__main__':
-    label = np.fromfile("/data/mcl/data/AAPM/1.raw", dtype="float32")
-    label = np.reshape(label, [1, 1, 200, 512, 512])
-    label = label[...,0:63,:,:]
-    label /= np.max(label)
-    label = torch.from_numpy(label).to(device)
-    projection = ForwardProjection.apply(label)
-    # projection = np.fromfile("/home/nv/wyk/Data/lz/projection.raw", dtype="float32")
-    # projection = torch.from_numpy(projection).reshape(1,1,1080*21,128,80).to(device)
+    # label = np.fromfile("/data/mcl/data/AAPM/1.raw", dtype="float32")
+    # label = np.reshape(label, [1, 1, 200, 512, 512])
+    # label = label[...,0:63,:,:]
+    # label /= np.max(label)
+    # label = torch.from_numpy(label).to(device)
+    # projection = ForwardProjection.apply(label)
+    projection = np.fromfile("/home/nv/wyk/Data/lz/projection2.raw", dtype="float32")
+    projection = torch.from_numpy(projection).reshape(1,1,1080*21,144,80).to(device)
+    projection[torch.isnan(projection)] = 0
+    # projection = projection[...,2:78]
     input = np.fromfile("/home/nv/wyk/Data/input.raw", dtype="float32")
     input = torch.from_numpy(input)
     input = input.reshape(512*512,2).to(device)
@@ -43,7 +45,7 @@ if __name__ == '__main__':
             optimizer[s].zero_grad()
             scheduler[s].step()
         if e%100==0:
-            output[36,...].detach().cpu().numpy().astype("float32").tofile("/home/nv/wyk/Data/lz/output.raw")
+            output.detach().cpu().numpy().astype("float32").tofile("/home/nv/wyk/Data/lz/output.raw")
             print(f"loss:{loss.item()}")
     output = torch.zeros(beijingVolumeSize[2], 512*512, 1).to(device)
     for s in range(beijingVolumeSize[2]):

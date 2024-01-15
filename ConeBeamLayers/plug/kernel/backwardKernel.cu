@@ -35,17 +35,17 @@ __global__ void backwardKernel(float* volume, const uint3 volumeSize, const uint
             float detectorX = fScale * det3(coordinates-sourcePosition,v,sourcePosition-detectorPosition) - detectorCenter.x + bias;
             float detectorY = fScale * det3(u, coordinates-sourcePosition,sourcePosition-detectorPosition) - detectorCenter.y;
             float fr = fScale * det3(u, v, sourcePosition-detectorPosition);
-//            if(detectorY >= 0 && detectorY <= detectorSize.y){
-//                if(detectorX >= 0 && detectorX <= detectorSize.x)
-//                    found = true;
-//                else if(detectorX < 0 && detectorX >= -1){
-//                    found = true;
-//                    detectorX = 0;
-//                }else if(detectorX > detectorSize.x && detectorX <= detectorSize.x+1){
-//                    found = true;
-//                    detectorX = detectorSize.x;
-//                }else continue;
-//            }
+            // if(detectorY >= 0 && detectorY <= detectorSize.y){
+            //     if(detectorX >= 0 && detectorX <= detectorSize.x)
+            //         found = true;
+            //     else if(detectorX < 0 && detectorX >= -2){
+            //         found = true;
+            //         detectorX = 0;
+            //     }else if(detectorX > detectorSize.x && detectorX <= detectorSize.x+2){
+            //         found = true;
+            //         detectorX = detectorSize.x;
+            //     }else continue;
+            // }
             if(detectorX < -1 || detectorX > detectorSize.x+1 || detectorY < -1 || detectorY > detectorSize.y+1) continue;
             else found = true;
             value += fr * tex3D(sinoTexture, detectorX, detectorY, angleIdx%TEXA+0.5f);

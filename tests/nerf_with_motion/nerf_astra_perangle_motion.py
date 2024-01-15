@@ -15,7 +15,7 @@ def _filter(projWidth):
     return filter
 
 # System matrix & astra module
-anglesNum = 120
+anglesNum = 360
 angles = np.linspace(0, 2*np.pi, anglesNum, endpoint=False)
 detectorSize = 900
 volumeSize = [512, 512]
@@ -76,10 +76,11 @@ class ProjectionPerAngle(torch.autograd.Function):
     def getResultAngle(projectionMatrix):
         return torch.arctan2(projectionMatrix[1,0], projectionMatrix[1,1]).to(torch.float32).to(device)
 
-# angles = np.linspace(np.pi/3, 2*np.pi+np.pi/3, anglesNum, endpoint=False)
-# projectorGeometryBias = astra.create_proj_geom('fanflat', 1.0, detectorSize, angles, 800, 400)
-# projectorBias = astra.create_projector('cuda',projectorGeometryBias,volumeGeometry)
-# HBias = astra.OpTomo(projectorBias)
+anglesBias = angles.copy()
+anglesBias[0:2] += np.pi/3
+projectorGeometryBias = astra.create_proj_geom('fanflat', 1.0, detectorSize, anglesBias, 800, 400)
+projectorBias = astra.create_projector('cuda',projectorGeometryBias,volumeGeometry)
+HBias = astra.OpTomo(projectorBias)
 
 # Nerf
 encoding_config = {
@@ -125,10 +126,10 @@ class TrainSet(Dataset):
         return len(self.angles)
 
 if __name__ == '__main__':
-    label = np.fromfile("/home/nv/wyk/Data/SheppLogan.raw", dtype="float32")
-    label = np.reshape(label, [64, volumeSize[0]*volumeSize[1]])
-    label = label[31, ...]
-    label_sino = torch.from_numpy(H * label).to(device)
+    label = np.fromfile("/home/nv/wyk/Data/balls.raw", dtype="float32")
+    label = np.reshape(label, [16, volumeSize[0]*volumeSize[1]])
+    label = label[11, ...]
+    label_sino = torch.from_numpy(HBias * label).to(device)
     trainSet = TrainSet(angles, label_sino.reshape(anglesNum, detectorSize))
     trainLoader = DataLoader(trainSet, batch_size=1, shuffle=True)
     input = build_coordinate_test(volumeSize[0])
@@ -138,7 +139,7 @@ if __name__ == '__main__':
     # optimizer_corr = torch.optim.Adam([angleCorrection, angleTranslation], lr=1e-3)
     # scheduler = torch.optim.lr_scheduler.StepLR(optimizer_corr, step_size=200, gamma=0.95)
     tic = time.time()
-    for e in range(61):
+    for e in range(31):
         meanLoss = 0
         for i, (angle, label_sino_angle) in enumerate(trainLoader):
             label_sino_angle = label_sino_angle.view(detectorSize).to(device)

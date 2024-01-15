@@ -5,3 +5,12 @@
 0	18152	1701766644246419875	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/jit.o	9dc2b838c95fe298
 0	59709	1701766685805626032	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
 0	60594	1701766686689609147	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/forwardKernel.o	e0e96124f9788fc2
+20	59062	1704788650523939426	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
+24	58493	1704792598441891456	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
+22	58645	1704869157846731706	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
+22	59463	1704869906308410128	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
+22	57673	1704876960641929895	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
+23	59166	1704953098147569349	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
+23	59160	1705068627860069271	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
+23	58953	1705068874205938248	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
+23	59252	1705069746396555374	/home/nv/wyk/inf-recon/ConeBeamLayers/plug/build/temp.linux-x86_64-cpython-37/kernel/backwardKernel.o	4028354b687dc9d6
