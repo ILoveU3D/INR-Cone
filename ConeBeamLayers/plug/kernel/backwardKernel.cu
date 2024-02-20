@@ -6,7 +6,7 @@
 #define BLOCK_X 16
 #define BLOCK_Y 16
 #define BLOCK_A 180
-#define TEXA (21*1080)
+#define TEXA (21*180)
 #define PI 3.14159265359
 #define CHECK_CUDA(x) AT_ASSERTM(x.type().is_cuda(), #x " must be a CUDA tensor")
 #define CHECK_CONTIGUOUS(x) AT_ASSERTM(x.is_contiguous(), #x " must be contiguous")
@@ -15,7 +15,7 @@
 // 弦图的纹理内存
 texture<float, cudaTextureType3D, cudaReadModeElementType> sinoTexture;
 
-__global__ void backwardKernel(float* volume, const uint3 volumeSize, const uint2 detectorSize, const float* projectVector, const uint index, const int anglesNum, const float bias, const float3 volumeCenter, const float2 detectorCenter){
+__global__ void backwardKernel(float* volume, const uint3 volumeSize, const uint2 detectorSize, const float* projectVector, const uint index, const int anglesNum, const float3 volumeCenter, const float2 detectorCenter){
     // 体素驱动，代表一个体素点
     uint3 volumeIdx = make_uint3(blockIdx.x*blockDim.x+threadIdx.x, blockIdx.y*blockDim.y+threadIdx.y, blockIdx.z*blockDim.z+threadIdx.z);
     if (volumeIdx.x >= volumeSize.x || volumeIdx.y >= volumeSize.y){
@@ -32,20 +32,9 @@ __global__ void backwardKernel(float* volume, const uint3 volumeSize, const uint
             float3 u = make_float3(projectVector[angleIdx*12+9], projectVector[angleIdx*12+10], projectVector[angleIdx*12+11]);
             float3 coordinates = make_float3(volumeCenter.x + volumeIdx.x, volumeCenter.y + volumeIdx.y,volumeCenter.z+k);
             float fScale = __fdividef(1.0f, det3(u, v, sourcePosition-coordinates));
-            float detectorX = fScale * det3(coordinates-sourcePosition,v,sourcePosition-detectorPosition) - detectorCenter.x + bias;
+            float detectorX = fScale * det3(coordinates-sourcePosition,v,sourcePosition-detectorPosition) - detectorCenter.x;
             float detectorY = fScale * det3(u, coordinates-sourcePosition,sourcePosition-detectorPosition) - detectorCenter.y;
             float fr = fScale * det3(u, v, sourcePosition-detectorPosition);
-            // if(detectorY >= 0 && detectorY <= detectorSize.y){
-            //     if(detectorX >= 0 && detectorX <= detectorSize.x)
-            //         found = true;
-            //     else if(detectorX < 0 && detectorX >= -2){
-            //         found = true;
-            //         detectorX = 0;
-            //     }else if(detectorX > detectorSize.x && detectorX <= detectorSize.x+2){
-            //         found = true;
-            //         detectorX = detectorSize.x;
-            //     }else continue;
-            // }
             if(detectorX < -1 || detectorX > detectorSize.x+1 || detectorY < -1 || detectorY > detectorSize.y+1) continue;
             else found = true;
             value += fr * tex3D(sinoTexture, detectorX, detectorY, angleIdx%TEXA+0.5f);
@@ -55,7 +44,7 @@ __global__ void backwardKernel(float* volume, const uint3 volumeSize, const uint
     }
 }
 
-torch::Tensor backward(torch::Tensor sino, torch::Tensor _volumeSize, torch::Tensor _detectorSize, torch::Tensor projectVector, const int gap, const long device){
+torch::Tensor backward(torch::Tensor sino, torch::Tensor _volumeSize, torch::Tensor _detectorSize, torch::Tensor projectVector, const long device){
     CHECK_INPUT(sino);
     CHECK_INPUT(_volumeSize);
     AT_ASSERTM(_volumeSize.size(0) == 3, "volume size's length must be 3");
@@ -81,7 +70,7 @@ torch::Tensor backward(torch::Tensor sino, torch::Tensor _volumeSize, torch::Ten
     // 体块和探测器的大小位置向量化
     uint3 volumeSize = make_uint3(_volumeSize[0].item<int>(), _volumeSize[1].item<int>(), _volumeSize[2].item<int>());
     uint2 detectorSize = make_uint2(_detectorSize[0].item<int>(), _detectorSize[1].item<int>());
-    uint2 sinoTextureSize = make_uint2(detectorSize.x + gap, detectorSize.y);
+    uint2 sinoTextureSize = make_uint2(detectorSize.x, detectorSize.y);
     float3 volumeCenter = make_float3(volumeSize) / -2.0;
     float2 detectorCenter = make_float2(detectorSize) / -2.0;
 
@@ -106,7 +95,7 @@ torch::Tensor backward(torch::Tensor sino, torch::Tensor _volumeSize, torch::Ten
             const dim3 blockSize = dim3(BLOCK_X, BLOCK_Y, 1);
             const dim3 gridSize = dim3(volumeSize.x / BLOCK_X + 1, volumeSize.y / BLOCK_Y + 1, 1);
             for (int angle = subAngle; angle < subAngle+TEXA; angle+=BLOCK_A){
-               backwardKernel<<<gridSize, blockSize>>>(outPtrPitch, volumeSize, detectorSize, (float*)projectVector.data<float>(), angle, angles/21, gap/2.0, volumeCenter, detectorCenter);
+               backwardKernel<<<gridSize, blockSize>>>(outPtrPitch, volumeSize, detectorSize, (float*)projectVector.data<float>(), angle, angles/21, volumeCenter, detectorCenter);
             }
             // 解绑纹理
             cudaUnbindTexture(sinoTexture);

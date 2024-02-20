@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-dim_x, dim_y, dim_z = 512, 512, 16
+dim_x, dim_y, dim_z = 1024, 1024, 16
 input = torch.zeros(dim_x, dim_y, 2)
 value_xy = np.linspace(-1,1,dim_x)
 value_z = np.linspace(-1,1,dim_z)

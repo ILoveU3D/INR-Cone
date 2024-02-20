@@ -1,3 +1,3 @@
 #include <torch/extension.h>
 
-torch::Tensor differentiableFanFlatGradient(torch::Tensor sino, torch::Tensor volume, torch::Tensor projectVector, torch::Tensor grad);
+torch::Tensor differentiableFanFlatGradient(torch::Tensor sino, torch::Tensor volume, torch::Tensor projectVector);

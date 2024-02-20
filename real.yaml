@@ -1,14 +1,10 @@
-beijingAngleNum: 1080
+beijingAngleNum: 360
 beijingPlanes: 21
 beijingSubDetectorSize:
-  - 80
+  - 74
   - 144
 beijingVolumeSize:
-  - 512
-  - 512
-  - 64
+  - 1024
+  - 1024
+  - 144
 beijingParameterRoot: /home/nv/wyk/Data/lz/projVecReal.mat
-beijingSID: 708
-beijingSDD: 1143
-sampleInterval: 2
-beijingGap: 0

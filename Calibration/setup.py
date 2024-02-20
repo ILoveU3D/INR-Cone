@@ -5,7 +5,7 @@ setup(name="JITSelfCalibration",
       include_paths=["include"], ext_modules=[
         CUDAExtension(
             "JITSelfCalibration",
-            ["jit.cpp", "kernel/differentiableFanFlatGradient.cu"]
+            ["jit.cpp", "kernel/differentiableFanFlatGradient.cu", "kernel/backward.cu", "kernel/forward.cu"]
         )
     ], zip_safe=False, cmdclass={
         "build_ext": BuildExtension

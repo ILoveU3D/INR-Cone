@@ -21,7 +21,9 @@ rule cuda_compile
 
 
 build /home/nv/wyk/inf-recon/Calibration/build/temp.linux-x86_64-cpython-37/jit.o: compile /home/nv/wyk/inf-recon/Calibration/jit.cpp
+build /home/nv/wyk/inf-recon/Calibration/build/temp.linux-x86_64-cpython-37/kernel/backward.o: cuda_compile /home/nv/wyk/inf-recon/Calibration/kernel/backward.cu
 build /home/nv/wyk/inf-recon/Calibration/build/temp.linux-x86_64-cpython-37/kernel/differentiableFanFlatGradient.o: cuda_compile /home/nv/wyk/inf-recon/Calibration/kernel/differentiableFanFlatGradient.cu
+build /home/nv/wyk/inf-recon/Calibration/build/temp.linux-x86_64-cpython-37/kernel/forward.o: cuda_compile /home/nv/wyk/inf-recon/Calibration/kernel/forward.cu
 
 
 
