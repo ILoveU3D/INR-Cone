@@ -8,7 +8,7 @@ encoding_config = {
     "n_levels": 8, "n_features_per_level": 8,
     "log2_hash_map_size": 22,
     "base_resolution": 3,
-    "per_level_scale": 1.95*4,
+    "per_level_scale": 1.95*2,
     "interpolation": "Linear"
 }
 network_config = {
